@@ -17,7 +17,7 @@ deploy:
       password: $DOCKER_PASSWORD
       repository: $DOCKER_USERNAME/$DOCKER_IMAGE
       ports: "6379"
-      cmd: "/bin/bash -c \"cd /pipeline/source/ && redis-server /etc/redis/redis.conf\""
+      cmd: "/bin/bash -c \"redis-server /etc/redis/redis.conf\""
 
     - add-ssh-key:
         keyname: DIGITALOCEAN
