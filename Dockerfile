@@ -5,8 +5,11 @@
 #
 
 # Pull base image.
-FROM dockerfile/ubuntu
+FROM pivotaldata/ubuntu:16
 
+RUN \
+    apt-get update && \
+    apt-get -qq -y install wget make gcc
 # Install Redis.
 RUN \
   cd /tmp && \
