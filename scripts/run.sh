@@ -7,4 +7,4 @@ fi
 
 # Start Redis
 echo "Starting Redis..."
-/usr/local/bin/redis-server /etc/redis/redis.conf $@
+/pipeline/source/usr/local/bin/redis-server /etc/redis/redis.conf $@
