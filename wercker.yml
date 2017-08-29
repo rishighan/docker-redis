@@ -6,7 +6,7 @@ build:
         code: |
           echo "Empty build step"
 deploy:
-  box: ubuntu
+  box: frodenas/ubuntu
   steps:
     - script:
         name: "install openssh"
