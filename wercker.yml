@@ -18,7 +18,7 @@ deploy:
       password: $DOCKER_PASSWORD
       repository: $DOCKER_USERNAME/$DOCKER_IMAGE
       ports: "6379"
-      cmd: "/bin/bash -c"
+      cmd: "/bin/bash -c /scripts/run.sh"
 
     - add-ssh-key:
         keyname: DIGITALOCEAN
