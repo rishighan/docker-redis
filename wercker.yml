@@ -1,4 +1,4 @@
-box: frodenas/ubuntu
+box: pivotaldata/ubuntu:16
 build:
   steps:
     - script:
@@ -12,7 +12,7 @@ deploy:
       password: $DOCKER_PASSWORD
       repository: $DOCKER_USERNAME/$DOCKER_IMAGE
       ports: "6379"
-      cmd: "/bin/bash -c /scripts/run.sh"
+      cmd: "/bin/bash -c cd /pipeline/source/ && redis-server /etc/redis/redis.conf"
 
     - add-ssh-key:
         keyname: DIGITALOCEAN
