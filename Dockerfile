@@ -13,10 +13,10 @@ RUN \
   cd redis-stable && \
   make && \
   make install && \
-  cp -f src/redis-sentinel /usr/local/bin
-
-RUN mkdir -p /etc/redis/
-COPY /tmp/redis-stable/*.conf /etc/redis
+  cp -f src/redis-sentinel /usr/local/bin && \
+  mkdir -p /etc/redis/ && \
+  cp -f /tmp/redis-stable/*.conf /etc/redis
+  
 RUN \
   rm -rf /tmp/redis-stable* && \
   sed -i 's/^\(bind .*\)$/# \1/' /etc/redis/redis.conf && \
