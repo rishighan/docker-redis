@@ -1,4 +1,4 @@
-box: ubuntu
+box: frodenas/ubuntu
 build:
   steps:
     - script:
@@ -6,19 +6,13 @@ build:
         code: |
           echo "Empty build step"
 deploy:
-  box: frodenas/ubuntu
   steps:
-    - script:
-        name: "install openssh"
-        code: |
-          sudo apt-get update
-          sudo apt-get -qq -y install openssh-server
     - internal/docker-push:
       username: $DOCKER_USERNAME
       password: $DOCKER_PASSWORD
       repository: $DOCKER_USERNAME/$DOCKER_IMAGE
       ports: "6379"
-      cmd: "/bin/bash -c /pipeline/source/scripts/run.sh"
+      cmd: "/bin/bash -c /scripts/run.sh"
 
     - add-ssh-key:
         keyname: DIGITALOCEAN
