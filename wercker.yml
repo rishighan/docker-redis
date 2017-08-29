@@ -7,12 +7,12 @@ build:
           echo "Empty build step"
 deploy:
   box: ubuntu
-  - script:
-    name: "install openssh"
-    code: |
-      sudo apt-get update
-      sudo apt-get -qq -y install openssh-server
   steps:
+    - script:
+        name: "install openssh"
+        code: |
+          sudo apt-get update
+          sudo apt-get -qq -y install openssh-server
     - internal/docker-push:
       username: $DOCKER_USERNAME
       password: $DOCKER_PASSWORD
