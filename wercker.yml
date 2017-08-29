@@ -11,7 +11,7 @@ deploy:
       name: "install openssh"
       code: |
         sudo apt-get update
-        sudo apt-get install openssh
+        sudo apt-get install openssh-server openssh-client
     - internal/docker-push:
       username: $DOCKER_USERNAME
       password: $DOCKER_PASSWORD
