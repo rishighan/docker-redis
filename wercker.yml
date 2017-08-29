@@ -1,0 +1,36 @@
+box: ubuntu
+build:
+  steps:
+    - script:
+        name: empty build step
+        code: |
+          echo "Empty build step"
+deploy:
+  steps:
+    - internal/docker-push:
+      username: $DOCKER_USERNAME
+      password: $DOCKER_PASSWORD
+      repository: $DOCKER_USERNAME/$DOCKER_IMAGE
+      ports: "6379"
+      cmd: "/bin/bash -c \"scripts/run.sh\""
+
+    - add-ssh-key:
+        keyname: DIGITALOCEAN
+    - add-to-known_hosts:
+        hostname: $DIGITALOCEAN_HOST
+    - script:
+        name: pull latest image
+        code: ssh root@$DIGITALOCEAN_HOST docker pull $DOCKER_USERNAME/$DOCKER_IMAGE:latest
+    - script:
+        name: stop running container
+        code: ssh root@$DIGITALOCEAN_HOST docker stop rgapp || echo "failed to stop running container"
+    - script:
+        name: remove stopped container
+        code: ssh root@$DIGITALOCEAN_HOST docker rm rgapp || echo "failed to remove stopped container"
+    - script:
+        name: remove image behind stopped container
+        code: ssh root@$DIGITALOCEAN_HOST docker rmi -f $DOCKER_USERNAME/$DOCKER_IMAGE:latest || echo ‘failed to remove image behind stopped container’
+    - script:
+        name: run new container
+        code: ssh root@$DIGITALOCEAN_HOST docker run -d -p 80:8080 --name rgapp $DOCKER_USERNAME/$DOCKER_IMAGE:latest
+

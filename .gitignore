@@ -1,1 +1,8 @@
 creds.yml
+.idea
+*.iml
+.idea/dbnavigator.xml
+.idea/docker-redis.iml
+.idea/misc.xml
+.idea/modules.xml
+.idea/workspace.xml
