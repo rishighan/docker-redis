@@ -15,8 +15,7 @@ deploy:
     - script:
       name: "move redis config into place"
       code: |
-        mkdir -p /etc/redis
-        mv $WERCKER_SOURCE_DIR/etc/redis.conf /etc/redis/redis.conf
+        ls al /
     - internal/docker-push:
       username: $DOCKER_USERNAME
       password: $DOCKER_PASSWORD
