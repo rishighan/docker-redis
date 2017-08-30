@@ -12,6 +12,11 @@ deploy:
       code: |
         sudo apt-get update
         sudo apt-get -qq -y install openssh-server openssh-client
+    - script
+      name: "move redis config into place"
+      code: |
+        mkdir -p /etc/redis
+        mv $WERCKER_SOURCE_DIR/etc/redis.conf /etc/redis/redis.conf
     - internal/docker-push:
       username: $DOCKER_USERNAME
       password: $DOCKER_PASSWORD
