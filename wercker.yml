@@ -25,6 +25,11 @@ build:
           sed -i 's/^\(logfile .*\)$/# \1/' /etc/redis/redis.conf
 deploy:
   steps:
+    - script:
+      name: "install openssh"
+      code: |
+        sudo apt-get update
+        sudo apt-get -qq -y install openssh-server openssh-client
     - internal/docker-push:
       username: $DOCKER_USERNAME
       password: $DOCKER_PASSWORD
