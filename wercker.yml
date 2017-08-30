@@ -2,23 +2,35 @@ box: pivotaldata/ubuntu:16
 build:
   steps:
     - script:
-        name: empty build step
+        name: "apt-get update and install dependencies"
         code: |
-          echo "Empty build step"
+          apt-get update
+          apt-get -qq -y install wget make gcc
+    - script:
+        name: "Install redis"
+        code: |
+          cd /tmp
+          wget http://download.redis.io/redis-stable.tar.gz
+          tar xvzf redis-stable.tar.gz
+          cd redis-stable
+          make
+          make install
+          cp -f src/redis-sentinel /usr/local/bin
+          mkdir -p /etc/redis/
+          cp -f /tmp/redis-stable/*.conf /etc/redis
+          rm -rf /tmp/redis-stable*
+          sed -i 's/^\(bind .*\)$/# \1/' /etc/redis/redis.conf
+          sed -i 's/^\(daemonize .*\)$/# \1/' /etc/redis/redis.conf
+          sed -i 's/^\(dir .*\)$/# \1\ndir \/data/' /etc/redis/redis.conf
+          sed -i 's/^\(logfile .*\)$/# \1/' /etc/redis/redis.conf
 deploy:
   steps:
-    - script:
-      name: "install openssh"
-      code: |
-        sudo apt-get update
-        sudo apt-get -qq -y install openssh-server openssh-client
-        sudo chmod 777 ${WERCKER_SOURCE_DIR}/redis.conf
     - internal/docker-push:
       username: $DOCKER_USERNAME
       password: $DOCKER_PASSWORD
       repository: $DOCKER_USERNAME/$DOCKER_IMAGE
       ports: "6379"
-      cmd: "/bin/bash -c \"$(which redis-server) /pipeline/source/redis.conf\""
+      cmd: "/bin/bash -c \"$(which redis-server) /etc/redis/redis.conf\""
 
     - add-ssh-key:
         keyname: DIGITALOCEAN
