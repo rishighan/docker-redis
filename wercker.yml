@@ -15,7 +15,7 @@ deploy:
     - script:
       name: "move redis config into place"
       code: |
-        ls -al /pipeline/source
+        ls -al /etc/
     - internal/docker-push:
       username: $DOCKER_USERNAME
       password: $DOCKER_PASSWORD
