@@ -12,17 +12,12 @@ deploy:
       code: |
         sudo apt-get update
         sudo apt-get -qq -y install openssh-server openssh-client
-    - script:
-      name: "move redis config into place"
-      code: |
-        mkdir /etc/redis
-        mv $WERCKER_SOURCE_DIR/redis.conf /etc/redis
     - internal/docker-push:
       username: $DOCKER_USERNAME
       password: $DOCKER_PASSWORD
       repository: $DOCKER_USERNAME/$DOCKER_IMAGE
       ports: "6379"
-      cmd: "/bin/bash -c \" $(which redis-server) /etc/redis/redis.conf\""
+      cmd: "/bin/bash -c \" $(which redis-server) /pipeline/source/redis.conf\""
 
     - add-ssh-key:
         keyname: DIGITALOCEAN
