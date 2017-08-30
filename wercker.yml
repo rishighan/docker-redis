@@ -12,7 +12,7 @@ deploy:
       code: |
         sudo apt-get update
         sudo apt-get -qq -y install openssh-server openssh-client
-    - script
+    - script:
       name: "move redis config into place"
       code: |
         mkdir -p /etc/redis
