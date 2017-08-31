@@ -24,7 +24,6 @@ build:
           sed -i 's/^\(dir .*\)$/# \1\ndir \/data/' /etc/redis/redis.conf
           sed -i 's/^\(logfile .*\)$/# \1/' /etc/redis/redis.conf
 deploy:
-  box: pivotaldata/ubuntu:16
   steps:
     - script:
       name: "install openssh"
@@ -36,7 +35,7 @@ deploy:
       password: $DOCKER_PASSWORD
       repository: $DOCKER_USERNAME/$DOCKER_IMAGE
       ports: "6379"
-      cmd: "/bin/bash -c \"ls -al /etc/redis \""
+      cmd: "ls -al /etc/redis"
 #      cmd: "/bin/bash -c \"$(which redis-server) /etc/redis/redis.conf\""
 
     - add-ssh-key:
