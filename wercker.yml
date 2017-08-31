@@ -24,6 +24,7 @@ build:
           sed -i 's/^\(dir .*\)$/# \1\ndir \/data/' /etc/redis/redis.conf
           sed -i 's/^\(logfile .*\)$/# \1/' /etc/redis/redis.conf
 deploy:
+  box: pivotaldata/ubuntu:16
   steps:
     - script:
       name: "install openssh"
